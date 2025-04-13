@@ -3,9 +3,7 @@
 import React from "react"
 import './userchat.css'
 
-function UserChatComponent({id, chat}) {
-
-    console.log(id)
+function UserChatComponent({chat}) {
 
     return (
         <main className="userchatmain">

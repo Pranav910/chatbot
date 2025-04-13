@@ -6,16 +6,30 @@
 .promptsub {
     height: 100%;
     width: 100%;
+    display: flex;
+    background-color: #303030;
+    border-radius: 24px;
 }
 
 .promptinput {
-    background-color: #303030;
-    width: 100%;
+    background-color: transparent;
+    width: 90%;
     height: 100%;
     padding: 0 24px;
     outline: none;
     color: #e6d9d9;
-    border-radius: 24px;
     border: none;
     font-size: 16px;
+}
+
+.up-arrow {
+    background-color: rgb(242, 234, 234);
+    border-radius: 100px;
+    padding: 6px;
+    place-self: center;
+    cursor: pointer;
+}
+
+.up-arrow:hover {
+    background-color: rgb(226, 218, 218);
 }

@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useState } from "react";
+import Image from "next/image";
 import './prompt_view.css'
+import up_arrow from '../../assets/up-arrow.svg'
 
-function PromptView({ setUserChat, setChats }) {
+function PromptView({ setUserChat, setChats, setLoadingState }) {
 
     const [userInput, setUserInput] = useState("")
 
@@ -21,6 +23,9 @@ function PromptView({ setUserChat, setChats }) {
     }
 
     async function get_model_response() {
+
+        setLoadingState(true)
+
         const response = await fetch("http://localhost:8000/api/v1/response", {
             method: 'POST',
             headers: {
@@ -32,15 +37,22 @@ function PromptView({ setUserChat, setChats }) {
         const data = await response.json()
 
         setChats(p => [...p, {
-            type : 'ai',
-            chat : data.result
+            type: 'ai',
+            chat: data?.result
         }])
+
+        setLoadingState(false)
     }
 
     return (
         <main className="promptmain">
             <div className="promptsub">
                 <input onChange={updateUserInput} onKeyDown={sendUserInput} value={userInput} type="text" placeholder="Enter Prompt" className="promptinput" />
+                {
+                    userInput.length ?
+                        <Image width={30} height={30} alt="up-arrow" src={up_arrow} className="up-arrow" onClick={get_model_response} /> :
+                        null
+                }
             </div>
         </main>
     )

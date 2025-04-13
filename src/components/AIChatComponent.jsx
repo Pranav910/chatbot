@@ -7,7 +7,7 @@ import rehypeHighlight from "rehype-highlight"
 import 'highlight.js/styles/github-dark.css';
 import './aichat.css'
 
-function AIChatComponent({ id, chat }) {
+function AIChatComponent({ chat }) {
 
     const [aiChat, setAiChat] = useState("")
     const ref = useRef(null)
@@ -20,8 +20,8 @@ function AIChatComponent({ id, chat }) {
         words.forEach((word, index) => {
             const timeout = setTimeout(() => {
                 setAiChat(p => p + " " + word)
-            }, index * 50);
-            
+            }, index * 30);
+
             timeouts.push(timeout)
         })
 
@@ -31,20 +31,19 @@ function AIChatComponent({ id, chat }) {
     }, [])
 
     useEffect(() => {
-        if(ref.current) {
+        if (ref.current) {
             ref.current.scrollIntoView()
         }
     }, [aiChat])
 
     return (
         <main className="aichatmain markdown-renderer prose prose-invert max-w-none markdown-body">
-            {console.log('rerender')}
             <ReactMarkdown
                 children={aiChat}
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight]}
             />
-            <div ref={ref}/>
+            <div ref={ref} />
         </main>
     )
 }

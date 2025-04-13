@@ -14,7 +14,10 @@ prompt = ChatPromptTemplate(
 
         5. Tables (if applicable)
 
-        Ensure that the Markdown is clean, readable, and well-structured and well-spaced between words and line, as if preparing content for a blog post, GitHub README, or a technical note."""
+        Ensure that the Markdown is clean, readable, and well-structured and well-spaced between words and line, as if preparing content for a blog post, GitHub README, or a technical note.
+         
+        Note : If you feel like you do not know the answer just explain it in simple terms and do not provide any un-necessary information like the markdown response, etc. 
+         """
         ),
         MessagesPlaceholder(variable_name='message')
     ]
