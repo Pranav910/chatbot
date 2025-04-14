@@ -17,6 +17,7 @@ export default function Home() {
   ])
   const [loadingState, setLoadingState] = useState(false)
   const loadingRef = useRef(null)
+  const promptViewRef = useRef(null)
 
   function setUserChat(userChat) {
     setChats(p => [...p, {
@@ -24,6 +25,12 @@ export default function Home() {
       chat: userChat,
     }])
 
+  }
+
+  function setPromptViewWidth(length) {
+    const height = 12 + (length / 73) * 2
+    if(promptViewRef.current && height <= 25)
+      promptViewRef.current.style.height = `${height}%`
   }
 
   useEffect(() => {
@@ -67,8 +74,8 @@ export default function Home() {
 
       </div>
 
-      <div className="promptview">
-        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} />
+      <div className="promptview" ref={promptViewRef}>
+        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} setPromptViewWidth={setPromptViewWidth}/>
       </div>
     </main>
   );

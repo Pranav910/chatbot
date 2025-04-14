@@ -9,6 +9,7 @@
     display: flex;
     background-color: #303030;
     border-radius: 24px;
+    padding: 10px 0;
 }
 
 .promptinput {
@@ -20,14 +21,44 @@
     color: #e6d9d9;
     border: none;
     font-size: 16px;
+    align-items: center;
+    resize: none;
+    font-family: 'Roboto';
+    padding-top: 20px;
+    margin-right: 20px;
+}
+
+.promptinput::-webkit-scrollbar {
+    background-color: transparent;
+    width: 8px;
+}
+
+
+.promptinput::-webkit-scrollbar-thumb {
+    background-color: #504f4f;
+    cursor:default;
+    border-radius: 50px;
+}
+
+.promptinput::-webkit-scrollbar-corner {
+    scrollbar-arrow-color: red;
+}
+
+.up-arrow-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 100%;
 }
 
 .up-arrow {
     background-color: rgb(242, 234, 234);
     border-radius: 100px;
-    padding: 6px;
+    padding: 7px;
     place-self: center;
     cursor: pointer;
+    margin-right: 15px;
 }
 
 .up-arrow:hover {

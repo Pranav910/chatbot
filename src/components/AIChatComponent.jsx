@@ -1,11 +1,12 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from "react"
-import ReactMarkdown from 'react-markdown'
+import React, { useEffect, useRef, useState, useMemo } from "react"
+import Markdown from 'react-markdown'
 import remarkGfm from "remark-gfm"
 import rehypeHighlight from "rehype-highlight"
 import 'highlight.js/styles/github-dark.css';
 import './aichat.css'
+import Copy from "./Copy"
 
 function AIChatComponent({ chat }) {
 
@@ -36,13 +37,30 @@ function AIChatComponent({ chat }) {
         }
     }, [aiChat])
 
+    const markdownComponents = useMemo(() => ({
+        code({ node, inline, className = "blog-code", children, ...props }) {
+            const match = /language-(\w+)/.exec(className || '')
+            return !inline && match ? (
+                <code className={className} {...props}>
+                    <Copy/>
+                    {children}
+                </code>
+            ) : (
+                <code className={className} {...props}>
+                    {children}
+                </code>
+            )
+        }
+    }), [])
+
+
     return (
         <main className="aichatmain markdown-renderer prose prose-invert max-w-none markdown-body">
-            <ReactMarkdown
-                children={aiChat}
+            <Markdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeHighlight]}
-            />
+                components={markdownComponents}
+            >{aiChat}</Markdown>
             <div ref={ref} />
         </main>
     )
