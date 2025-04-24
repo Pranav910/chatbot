@@ -50,6 +50,7 @@
     justify-content: center;
     width: 30px;
     height: 100%;
+    margin-right: 5px;
 }
 
 .up-arrow {
@@ -58,9 +59,17 @@
     padding: 7px;
     place-self: center;
     cursor: pointer;
-    margin-right: 15px;
+    margin-right: 10px;
 }
 
 .up-arrow:hover {
     background-color: rgb(226, 218, 218);
+}
+
+.promptsub input{
+    display: none;
+}
+
+.promptsub label {
+    display: flex;
 }

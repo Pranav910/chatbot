@@ -29,7 +29,7 @@ export default function Home() {
 
   function setPromptViewWidth(length) {
     const height = 12 + (length / 73) * 2
-    if(promptViewRef.current && height <= 25)
+    if (promptViewRef.current && height <= 25)
       promptViewRef.current.style.height = `${height}%`
   }
 
@@ -39,7 +39,7 @@ export default function Home() {
       loadingRef.current.style.marginBottom = "60px"
       loadingRef.current.scrollIntoView()
     }
-      
+
   }, [loadingState])
 
   return (
@@ -75,7 +75,7 @@ export default function Home() {
       </div>
 
       <div className="promptview" ref={promptViewRef}>
-        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} setPromptViewWidth={setPromptViewWidth}/>
+        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} setPromptViewWidth={setPromptViewWidth} />
       </div>
     </main>
   );

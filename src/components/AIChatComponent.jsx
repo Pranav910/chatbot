@@ -12,6 +12,7 @@ function AIChatComponent({ chat }) {
 
     const [aiChat, setAiChat] = useState("")
     const ref = useRef(null)
+    const codeRef = useRef(null)
 
     useEffect(() => {
         const words = chat.split(" ")
@@ -37,12 +38,17 @@ function AIChatComponent({ chat }) {
         }
     }, [aiChat])
 
+    function copyCode(code) {
+        codeRef.current = code
+        navigator.clipboard.writeText(codeRef.current.innerText)
+    }
+
     const markdownComponents = useMemo(() => ({
         code({ node, inline, className = "blog-code", children, ...props }) {
             const match = /language-(\w+)/.exec(className || '')
             return !inline && match ? (
-                <code className={className} {...props}>
-                    <Copy/>
+                <code className={className} {...props} ref={codeRef}>
+                    <Copy copyCode={copyCode}/>
                     {children}
                 </code>
             ) : (
