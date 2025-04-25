@@ -19,6 +19,8 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
         browserSupportsSpeechRecognition } = useSpeechRecognition()
     const [speechState, setSpeechState] = useState(false)
     const [file, setFile] = useState(null)
+    const imageFormats = ['png', 'jpg', 'jpeg', 'img']
+    
 
     // if (!browserSupportsSpeechRecognition)
     //     console.log("Your browser doesn't support speech recognitionl")
@@ -74,7 +76,10 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
 
     function setInputFile(e) {
         e.preventDefault()
-        setFile(e.target.files[0])
+        setFile({
+            type : e.target.files[0].name.split('.').pop(),
+            file : e.target.files[0]
+        })
     }
 
     async function get_model_response_with_file() {
@@ -84,12 +89,11 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
         setLoadingState(true)
 
         const formData = new FormData()
-        formData.append('file', file)
+        formData.append('file', file.file)
         formData.append('user_prompt', userInput)
 
-        const res = await fetch("http://localhost:8000/api/v1/file_response", {
+        const res = await fetch(!imageFormats.includes(file.type) ? "http://localhost:8000/api/v1/file_response" : "http://localhost:8000/api/v1/image_response", {
             method: 'POST',
-            'Content-Type': 'multipart/formdata',
             body: formData
         })
 

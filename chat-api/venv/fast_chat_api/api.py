@@ -1,5 +1,6 @@
 from chat_history import with_chat_history
 from langchain_core.messages import HumanMessage, AIMessage
+from generate_image_response import generate_ocr_response
 from model_config import config
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
@@ -45,3 +46,15 @@ def send_model_response_with_file(file : UploadFile = File(...), user_prompt : s
     respone = generate_rag_response(file_path, user_prompt)
     
     return {'result' : respone}
+
+
+@app.post("/api/v1/image_response")
+async def send_model_response_with_image(file : UploadFile = File(...), user_prompt : str = Form()):
+    image_file_path = os.path.join('./', file.filename)
+
+    with open(image_file_path, 'wb') as image_buffer:
+        shutil.copyfileobj(file.file, image_buffer)
+        
+    ocr_response = generate_ocr_response(image_file_path)
+
+    return {'result' : ocr_response}
