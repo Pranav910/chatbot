@@ -21,7 +21,7 @@ jobs:
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
     - name: Build Docker Image
-      run: docker build -t chatbot-client:latest .
+      run: docker build -t chatbot-client .
 
     - name: Push Docker Image to Docker Hub
       run: docker image push pranav910/chatbot-client:latest
