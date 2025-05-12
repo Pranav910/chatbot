@@ -18,6 +18,7 @@ jobs:
       env:
         DOCKER_USERNAME : ${{env.DOCKER_USERNAME}}
         DOCKER_PASSWORD : ${{env.DOCKER_PASSWORD}}
+      run: docker login -u DOCKER_USERNAME -p DOCKER_PASSWORD
 
     - name: Build Docker Image
       run: docker build -t chatbot-client:latest .
