@@ -1,10 +1,8 @@
-from chat_history import with_chat_history
-from langchain_core.messages import HumanMessage, AIMessage
 from generate_image_response import generate_ocr_response
-from model_config import config
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from allowed_origins import origins
+from generate_response import generate_response
 from pydantic import BaseModel
 from rag_response_generator import generate_rag_response
 import os
@@ -17,7 +15,7 @@ class Item(BaseModel):
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -29,10 +27,7 @@ async def root():
 
 @app.post("/api/v1/response")
 def send_model_response(item : Item):
-    result = with_chat_history.invoke(
-        [HumanMessage(content=item.prompt)],
-        config=config
-    )
+    result = generate_response(item.prompt, 'without_image')
     print(f"result : {result}")
     return {'result' : result}
 
@@ -57,4 +52,8 @@ async def send_model_response_with_image(file : UploadFile = File(...), user_pro
         
     ocr_response = generate_ocr_response(image_file_path)
 
-    return {'result' : ocr_response}
+    # print(f"OCR Response : {ocr_response}")
+
+    result = generate_response(ocr_response, 'with_image')
+
+    return {'result' : result}

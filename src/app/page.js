@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PromptView from "@/components/PromptView.jsx"
 import UserChatComponent from "@/components/UserChatComponent";
 import AIChatComponent from "@/components/AIChatComponent";
+import { ToastContainer, toast } from "react-toastify";
 import './page.css'
 import Image from "next/image";
 import loading from '../../assets/loading.gif'
@@ -12,17 +13,20 @@ export default function Home() {
 
   const [chats, setChats] = useState([
     {
-      'type': 'ai', 'chat': `## Hello!, Sir
-  How can I assist you today?`}
+      'type': 'ai', 
+      'chat': `## Hello!, Sir
+  How can I assist you today?`,
+      'fileURL' : null}
   ])
   const [loadingState, setLoadingState] = useState(false)
   const loadingRef = useRef(null)
   const promptViewRef = useRef(null)
 
-  function setUserChat(userChat) {
+  function setUserChat(userChat, fileURL=null) {
     setChats(p => [...p, {
       type: 'user',
       chat: userChat,
+      fileURL
     }])
 
   }
@@ -45,6 +49,12 @@ export default function Home() {
   return (
     <main className="relative h-screen w-full">
 
+      <h2 className="logo">
+        GyattGPT
+      </h2>
+
+      <ToastContainer toastStyle={{backgroundColor : '#303030', color : 'white'}} theme="dark" />
+
       <div className="chats">
 
         {
@@ -52,7 +62,7 @@ export default function Home() {
             if (chat.type == 'user')
               return (
                 <div className="humanchat" key={index}>
-                  <UserChatComponent chat={chat.chat} />
+                  <UserChatComponent chat={chat.chat} fileURL={chat.fileURL}/>
                 </div>
               )
             else if (chat.type == 'ai')
@@ -75,7 +85,7 @@ export default function Home() {
       </div>
 
       <div className="promptview" ref={promptViewRef}>
-        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} setPromptViewWidth={setPromptViewWidth} />
+        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} setPromptViewWidth={setPromptViewWidth} showToast={toast}/>
       </div>
     </main>
   );

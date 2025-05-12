@@ -1,6 +1,6 @@
 from langchain_core.chat_history import BaseChatMessageHistory, InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from chain import chain
+from chain import simple_response_chain, image_response_chain
 
 store = {}
 
@@ -10,4 +10,6 @@ def get_session_history(session_id : str) -> BaseChatMessageHistory:
     return store[session_id]
 
 
-with_chat_history = RunnableWithMessageHistory(chain, get_session_history)
+with_chat_history = RunnableWithMessageHistory(simple_response_chain, get_session_history)
+
+with_chat_history_with_image = RunnableWithMessageHistory(image_response_chain, get_session_history)

@@ -16,9 +16,17 @@ prompt = ChatPromptTemplate(
 
         Ensure that the Markdown is clean, readable, and well-structured and well-spaced between words and line, as if preparing content for a blog post, GitHub README, or a technical note.
          
-        Note : If you feel like you do not know the answer just explain it in simple terms and do not provide any un-necessary information like the markdown response, etc. 
+        Note : If the response does not contain any code then just generate the response in a simple markdown. Or if you feel like you do not know the answer just explain it in simple terms and do not provide any un-necessary information related to the markdown response, etc. 
          """
         ),
+        MessagesPlaceholder(variable_name='message')
+    ]
+)
+
+image_prompt = ChatPromptTemplate(
+    
+    [
+        ('system', "You are a helpful assistant who has given the output of the text extracted from an image you have to just say : 'The text extracted from the image is :'\n"),
         MessagesPlaceholder(variable_name='message')
     ]
 )

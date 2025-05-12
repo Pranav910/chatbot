@@ -1,5 +1,4 @@
 from mistralai import Mistral
-
 from load_image_b64 import load_image
 
 def generate_ocr_response(image_path):

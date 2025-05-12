@@ -11,3 +11,11 @@
     width: 100%;
     padding: 12px 20px;
 }
+
+.userchatmain .userchatsub p {
+    text-align: right;
+}
+
+.userchatmain .userchatsub img {
+    margin-bottom: 10px;
+}
