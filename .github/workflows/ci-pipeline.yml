@@ -24,4 +24,4 @@ jobs:
       run: docker build -t chatbot-client .
 
     - name: Push Docker Image to Docker Hub
-      run: docker image push pranav910/chatbot-client:latest
+      run: docker image push pranav910/chatbot-client
