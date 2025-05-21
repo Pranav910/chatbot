@@ -13,16 +13,27 @@ export default function Home() {
 
   const [chats, setChats] = useState([
     {
-      'type': 'ai', 
+      'type': 'ai',
       'chat': `## Hello!, Sir
   How can I assist you today?`,
-      'fileURL' : null}
+      'fileURL': null,
+      'sources': null
+    }
+  // {
+  //   type: 'ai',
+  //   chat: `AWS (Amazon Web Services) is a comprehensive cloud platform offering a wide range of services. Here are the key points:\n\n1. **Broad Services**: AWS offers over 200 fully featured services, including compute, storage, databases, machine learning, AI, data lakes and analytics, and IoT.\n\n2. **Global Infrastructure**: AWS has an extensive global cloud infrastructure with data centers worldwide, ensuring high availability and reliability.\n\n`,
+  //   sources: [
+  //       "https://www.amazon.com/favicon.ico",
+  //       "https://www.geeksforgeeks.org/favicon.ico",
+  //       "https://www.amazon.com/favicon.ico"
+  //   ]
+  // }
   ])
   const [loadingState, setLoadingState] = useState(false)
   const loadingRef = useRef(null)
   const promptViewRef = useRef(null)
 
-  function setUserChat(userChat, fileURL=null) {
+  function setUserChat(userChat, fileURL = null) {
     setChats(p => [...p, {
       type: 'user',
       chat: userChat,
@@ -53,7 +64,7 @@ export default function Home() {
         GyattGPT
       </h2>
 
-      <ToastContainer toastStyle={{backgroundColor : '#303030', color : 'white'}} theme="dark" />
+      <ToastContainer toastStyle={{ backgroundColor: '#303030', color: 'white' }} theme="dark" />
 
       <div className="chats">
 
@@ -62,13 +73,13 @@ export default function Home() {
             if (chat.type == 'user')
               return (
                 <div className="humanchat" key={index}>
-                  <UserChatComponent chat={chat.chat} fileURL={chat.fileURL}/>
+                  <UserChatComponent chat={chat.chat} fileURL={chat.fileURL} />
                 </div>
               )
             else if (chat.type == 'ai')
               return (
                 <div key={index} className="aichat">
-                  <AIChatComponent chat={chat.chat} loadingState={loadingState} />
+                  <AIChatComponent chat={chat} loadingState={loadingState} />
                 </div>
               )
           })
@@ -85,7 +96,7 @@ export default function Home() {
       </div>
 
       <div className="promptview" ref={promptViewRef}>
-        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} setPromptViewWidth={setPromptViewWidth} showToast={toast}/>
+        <PromptView setUserChat={setUserChat} setChats={setChats} setLoadingState={setLoadingState} setPromptViewWidth={setPromptViewWidth} showToast={toast} />
       </div>
     </main>
   );

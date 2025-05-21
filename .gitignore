@@ -40,10 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# python
-/chat-api/venv/Include
-/chat-api/venv/Lib
-/chat-api/venv/Scripts
-/chat-api/venv/pyvenv.cfg
-/chat-api/venv/fast-chat-api/__pycache__
-/chat-api/venv/fast-chat-api/.env
+# workflows
+/.github

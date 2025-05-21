@@ -9,6 +9,7 @@ import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognitio
 import mic from "../../assets/mic.svg"
 import tick from "../../assets/tick.svg"
 import add from "../../assets/add.svg"
+import web from "../../assets/web.svg"
 
 function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth, showToast }) {
 
@@ -22,6 +23,7 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
     const [fileURL, setFileURL] = useState(null)
     const imageFormats = ['png', 'jpg', 'jpeg', 'img']
     const userInputRef = useRef(null)
+    const [toggle, setToggle] = useState(false)
 
     // if (!browserSupportsSpeechRecognition)
     //     console.log("Your browser doesn't support speech recognitionl")
@@ -79,6 +81,10 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
         }
     }
 
+    function toggleWebSearch() {
+        setToggle(prev => !prev)
+    }
+
     function setInputFile(e) {
         e.preventDefault()
         setFile({
@@ -123,6 +129,35 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
 
     }
 
+    async function get_response_with_web_search(){
+
+        setUserChat(userInput)
+        setUserInput("")
+        setLoadingState(true)
+        setToggle(false)
+
+        const res = await fetch("http://localhost:8000/api/v1/get_web_search_results", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({type: 'user', prompt: userInput})
+        })
+
+        const data = await res.json()
+
+        setChats(p => [...p, {
+            type: 'ai',
+            chat: data?.result,
+            sources: data?.sources
+        }])
+
+        console.log(data?.sources);
+
+        setLoadingState(false)
+
+    }
+
 
     useEffect(() => {
 
@@ -137,7 +172,7 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
                 <div className="up-arrow-main">
                     {
                         userInput.length || transcript.length ?
-                            <Image className="up-arrow" width={30} height={30} alt="up-arrow" src={up_arrow} onClick={file ? get_model_response_with_file : get_model_response} /> :
+                            <Image className="up-arrow" width={30} height={30} alt="up-arrow" src={up_arrow} onClick={file && !toggle? get_model_response_with_file : toggle? get_response_with_web_search : get_model_response} /> :
                             null
                     }
                 </div>
@@ -147,6 +182,10 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
                 <label htmlFor="file_input">
                     <Image height={30} width={30} alt="mic" src={add} className="up-arrow" />
                 </label>
+                <button className="web-search-btn" onClick={toggleWebSearch} style={{backgroundColor: toggle?"#2a4a6d":"transparent"}}>
+                    <Image src={web} height={20} width={20} alt="web svg"/>
+                    <p>Search Web</p>
+                </button>
             </div>
         </main>
     )
