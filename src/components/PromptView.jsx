@@ -51,7 +51,7 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
         console.log(window.location.origin)
 
         // const response = await fetch(`${window.location.origin}/api/v1/api/v1/response`, {
-        const response = await fetch("http://localhost:8000/api/v1/response", {
+        const response = await fetch("https://chatbot-server-y23u.onrender.com/api/v1/response", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
 
         try {
 
-            const res = await fetch(!imageFormats.includes(file.type) ? "http://localhost:80/api/v1/file_response" : "http://localhost:80/api/v1/image_response", {
+            const res = await fetch(!imageFormats.includes(file.type) ? "https://chatbot-server-y23u.onrender.com/api/v1/file_response" : "https://chatbot-server-y23u.onrender.com/api/v1/image_response", {
             // const res = await fetch(!imageFormats.includes(file.type) ? "https://ff78-103-107-150-234.ngrok-free.app/api/v1/api/v1/file_response" : "https://ff78-103-107-150-234.ngrok-free.app/api/v1/api/v1/image_response", {
                 method: 'POST',
                 body: formData
@@ -136,7 +136,7 @@ function PromptView({ setUserChat, setChats, setLoadingState, setPromptViewWidth
         setLoadingState(true)
         setToggle(false)
 
-        const res = await fetch("http://localhost:8000/api/v1/get_web_search_results", {
+        const res = await fetch("https://chatbot-server-y23u.onrender.com/api/v1/get_web_search_results", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
