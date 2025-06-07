@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import './page.css'
 import Image from "next/image";
 import loading from '../../assets/loading.gif'
+import StartLoader from "@/components/StartLoader";
 
 export default function Home() {
 
@@ -32,6 +33,7 @@ export default function Home() {
   const [loadingState, setLoadingState] = useState(false)
   const loadingRef = useRef(null)
   const promptViewRef = useRef(null)
+  const [startLoadingState, setStartLoadingState] = useState(true)
 
   function setUserChat(userChat, fileURL = null) {
     setChats(p => [...p, {
@@ -48,6 +50,22 @@ export default function Home() {
       promptViewRef.current.style.height = `${height}%`
   }
 
+  async function checkServerStatus() {
+
+    const res = await fetch("http://localhost:8000/")
+    
+    if(res.status == 200)
+      return true
+  }
+
+  useEffect(() => {
+
+    const serverStatus = checkServerStatus()
+
+    if(serverStatus)
+      setStartLoadingState(false)
+  }, [])
+
   useEffect(() => {
 
     if (loadingState == true) {
@@ -59,6 +77,10 @@ export default function Home() {
 
   return (
     <main className="relative h-screen w-full">
+
+    {
+      startLoadingState ? <StartLoader/> : null
+    }
 
       <h2 className="logo">
         GyattGPT
